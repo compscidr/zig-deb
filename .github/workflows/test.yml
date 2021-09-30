@@ -1,0 +1,15 @@
+name: Test Zig Build and Package
+on:
+  pull_request:
+    paths:
+      - .github/workflows/test.yml
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: build test container
+        run: docker build -f Dockerfile --target test -t zig:${{ github.sha }} zig
+
