@@ -1,0 +1,14 @@
+name: Deploy Zig Package
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Push to Gemfury
+    runs-on: rapid-ubuntu-20
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Image and Deploy
+        run: docker build -f third_party/heaptrack/Dockerfile --target deploy --build-arg RAPID_GFKEY_PUSH='${{ secrets.RAPID_GFKEY_PUSH }}' --build-arg RAPID_GFKEY='${{ secrets.RAPID_GFKEY }}' -t third_party-heaptrack:${{ github.sha }} third_party/heaptrack
