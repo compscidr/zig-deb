@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build Image and Deploy
-        run: docker build -f third_party/heaptrack/Dockerfile --target deploy --build-arg RAPID_GFKEY_PUSH='${{ secrets.RAPID_GFKEY_PUSH }}' --build-arg RAPID_GFKEY='${{ secrets.RAPID_GFKEY }}' -t third_party-heaptrack:${{ github.sha }} third_party/heaptrack
+        run: docker build -f Dockerfile --target deploy --build-arg --build-arg GFKEY='${{ secrets.GFKEY }}' -t zig:${{ github.sha }} .

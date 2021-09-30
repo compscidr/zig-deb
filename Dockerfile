@@ -40,9 +40,23 @@ RUN echo "Zig package" > description-pak \
     --pakdir=/ --maintainer="Jason Ernst" --nodoc
 RUN dpkg -i /zig_${ZIG_VERSION}-1_amd64.deb
 
+## starts from a fresh ubuntu image and tries to install the deb we just created and then checks the version
 FROM ubuntu:focal as test
 ARG ZIG_VERSION
 COPY --from=build /zig_${ZIG_VERSION}-1_amd64.deb /tmp
 RUN dpkg-deb -c /tmp/zig_${ZIG_VERSION}-1_amd64.deb
 RUN dpkg -i /tmp/zig_${ZIG_VERSION}-1_amd64.deb
 RUN zig version
+
+# deploys the deb package to gemfury
+FROM ubuntu:focal as deploy
+RUN apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+     curl \
+     gnupg2 \
+     software-properties-common \
+ && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ARG ZIG_VERSION
+COPY --from=build /zig_${ZIG_VERSION}-1_amd64.deb /tmp
+ARG GFKEY_PUSH
+RUN test -n "${GFKEY_PUSH}" || (>&2 echo "GFKEY_PUSH build arg not set" && false)
+RUN curl -F package=@/tmp/zig_${ZIG_VERSION}-1_amd64.deb https://${GFKEY_PUSH}@push.fury.io/compscidr/
