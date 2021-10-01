@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     name: Push to Gemfury
-    runs-on: rapid-ubuntu-20
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Build Image and Deploy
