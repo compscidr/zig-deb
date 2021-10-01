@@ -1,6 +1,8 @@
 name: Test Zig Build and Package
 on:
   pull_request:
+    paths-ignore:
+      - 'README.md'
 
 jobs:
   test:
