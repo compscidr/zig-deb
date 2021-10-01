@@ -19,7 +19,7 @@ COPY install.sh .
 RUN echo "zig language compiler" > description-pak \
   && checkinstall -D --install=no -y --pkgname=zig --pkgversion=${ZIG_VERSION} --pkgrelease=${RELEASE} --pkglicense="See upstream" \
     --pakdir=/ --maintainer="compscidr" --nodoc ./install.sh
-RUN dpkg -i /zig_${ZIG_VERSION}-1_amd64.deb
+RUN dpkg -i /zig_${ZIG_VERSION}-${RELEASE}_amd64.deb
 
 ## starts from a fresh ubuntu image and tries to install the deb we just created and then checks the version
 FROM ubuntu:focal as test
