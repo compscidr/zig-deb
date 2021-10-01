@@ -16,13 +16,13 @@ FROM prereqs as tools
 WORKDIR /usr/src
 RUN git clone --depth=1 --single-branch --branch release/12.x https://github.com/llvm/llvm-project llvm-project
 WORKDIR /usr/src/llvm-project/llvm/build
-RUN cmake .. -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_LIBXML2=OFF -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
+RUN cmake .. -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_LIBXML2=OFF -G Ninja
 RUN ninja install
 WORKDIR /usr/src/llvm-project/lld/build
-RUN cmake .. -DCMAKE_BUILD_TYPE=Release  -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
+RUN cmake .. -DCMAKE_BUILD_TYPE=Release  -G Ninja
 RUN ninja install
 WORKDIR /usr/src/llvm-project/clang/build
-RUN cmake .. -DCMAKE_BUILD_TYPE=Release  -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
+RUN cmake .. -DCMAKE_BUILD_TYPE=Release  -G Ninja
 RUN ninja install
 
 FROM tools as build
