@@ -1,21 +1,18 @@
 # zig-deb
-Package zig into an apt package for installing on debian / ubuntu
+Package [zig](https://github.com/ziglang/zig) from the release into an apt package for installing on debian / ubuntu.
+Uses the binary build from the zig release page.
 
-Currently, existing instructions for installing zig via apt are out of date:
-https://techviewleo.com/install-zig-programming-language-ubuntu-debian/
+To use, add the following to `/etc/apt/sources.list.d/zig.list`:
+```
+deb [trusted=yes] https://apt.fury.io/compscidr/ /
+```
 
-According to this issue: https://github.com/ziglang/zig/issues/8623, Bintray
-shutdown which caused the hosting of the apt package to no longer work.
+Then run:
+```
+sudo apt update
+sudo apt install zig
+```
 
-Additionally, it appears the maintainer of the repo that was packaging zig
-was no longer maintaining it.
-
-## Release instructions: 
-https://github.com/ziglang/zig/wiki/How-to-build-LLVM,-libclang,-and-liblld-from-source#posix
-
-## Goals:
-This repo has only a couple of goals
-- [ ] Produce an apt package from Zig releases
-- [ ] Publish to a public repository
-- [ ] Ideally be as automated as possible
-- [ ] Clear and easy instructions to install in Ubuntu / Debian
+# todo
+- [ ] Support for multiple arch's (currently only supports x64
+- [ ] Automate deploy when a new release has come out
