@@ -14,5 +14,4 @@ sudo apt install zig
 ```
 
 # todo
-- [ ] Support for multiple arch's (currently only supports x64
 - [ ] Automate deploy when a new release has come out
