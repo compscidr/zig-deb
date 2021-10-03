@@ -13,4 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build Image and Deploy
-        run: docker build -f Dockerfile --target deploy --build-arg GFKEY_PUSH='${{ secrets.GFKEY_PUSH }}' -t zig:${{ github.sha }} .
+        run: ./build_and_deploy.sh
+        env:
+          GFKEY_PUSH: ${{ secrets.GFKEY_PUSH }}
