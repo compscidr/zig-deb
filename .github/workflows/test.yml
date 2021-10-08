@@ -1,0 +1,17 @@
+name: Test Zig Package
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  test:
+    name: Push to Gemfury
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Image and Deploy
+        run: echo ${{ secrets.GP_KEY }} > mysecret.txt && docker build -f Dockerfile --secret id=mysecret,src=mysecret.txt .
+        env:
+          GFKEY_PUSH: ${{ secrets.GFKEY_PUSH }}
+          DOCKER_BUILDKIT: 1
