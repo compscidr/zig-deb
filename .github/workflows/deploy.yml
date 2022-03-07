@@ -11,7 +11,7 @@ jobs:
     name: Push to Gemfury
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build Image and Deploy
         run: ./build_and_deploy.sh
         env:
