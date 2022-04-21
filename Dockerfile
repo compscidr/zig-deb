@@ -3,7 +3,7 @@ ARG RELEASE=2
 ARG ZIG_ARCH=x86_64
 ARG DEB_ARCH=amd64
 
-FROM ubuntu:focal as prereqs
+FROM ubuntu:jammy as prereqs
 RUN apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     wget \
     ca-certificates \
@@ -28,7 +28,7 @@ RUN echo "zig language compiler" > description-pak \
 # can't actually do this step ^^ if the arch of the system doesn't match the arch of the deb
 
 # deploys the deb package to gemfury
-FROM ubuntu:focal as deploy
+FROM ubuntu:jammy as deploy
 RUN apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
      curl \
      gnupg2 \
