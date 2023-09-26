@@ -1,0 +1,47 @@
+#!/bin/sh
+# https://jod.al/2015/03/08/building-arm-debs-with-pbuilder/
+set -e
+
+if [ "$OS" != "debian" ]; then
+  echo "Only supported OS is debian"
+  exit 1
+fi
+
+MIRRORSITE="http://ftp.no.debian.org/debian/"
+COMPONENTS="main contrib non-free"
+DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}"
+      "--keyring=/usr/share/keyrings/debian-archive-keyring.gpg")
+    : ${DIST:="sid"}
+    : ${ARCH:="amd64"}
+
+if [ "$ARCH" == "" ]; then
+    echo "ARCH is not set"
+    exit 1
+fi
+
+if [ "$DIST" == "" ]; then
+    echo "DIST is not set"
+    exit 1
+fi
+
+NAME="$OS-$DIST-$ARCH"
+
+if [ "$ARCH" == "armel" ] && [ "$(dpkg --print-architecture)" != "armel" ]; then
+    DEBOOTSTRAP="qemu-debootstrap"
+fi
+if [ "$ARCH" == "armhf" ] && [ "$(dpkg --print-architecture)" != "armhf" ]; then
+    DEBOOTSTRAP="qemu-debootstrap"
+fi
+
+DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--arch=$ARCH")
+BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
+DISTRIBUTION="$DIST"
+BUILDRESULT="/var/cache/pbuilder/$NAME/result/"
+APTCACHE="/var/cache/pbuilder/$NAME/aptcache/"
+BUILDPLACE="/var/cache/pbuilder/build"
+HOOKDIR="/var/cache/pbuilder/hook.d/"
+
+[ -d $APTCACHE ] || mkdir -p $APTCACHE
+[ -d $HOOKDIR ] || mkdir -p $HOOKDIR
+[ -d $BUILDPLACE ] || mkdir -p $BUILDPLACE
+[ -d $BUILDRESULT ] || mkdir -p $BUILDRESULT

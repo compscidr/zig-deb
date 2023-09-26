@@ -1,4 +1,22 @@
 # instructions
+Since I normally build on ubuntu, I'm using Vagrant to create a debian-11
+VM as a clean environment to build from. The ansible playbook provided installs
+all dependencies the system needs to build with.
+
+So assuming the same setup:
+
+```
+vagrant up
+vagrant ssh
+cd /usr/src
+sudo ./build.sh
+```
+
+
+
+
+
+## old
 Put your gpg private key into the secret.txt file, add your secret key password into the GPG_PASS and run:
 `DOCKER_BUILDKIT=1 docker build -f Dockerfile --build-arg GPG_PASS=<INSERT PASS> --secret id=mysecret,src=secret.txt .`
 

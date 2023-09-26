@@ -1,0 +1,24 @@
+---
+- name: Install Development Tools
+  hosts: all
+  become: yes
+  become_user: root
+  tasks:
+    - name: Install Apt Packages
+      apt:
+        pkg:
+          - rsync
+          - build-essential
+          - crossbuild-essential-i386
+          - wget
+          - ca-certificates
+          - xz-utils
+          - dh-make
+          - devscripts
+          - debhelper
+          - equivs
+          - gpg
+          - dput
+          - pbuilder
+          - qemu-user-static
+          - debian-archive-keyring
